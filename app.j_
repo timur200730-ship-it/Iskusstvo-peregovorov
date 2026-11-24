@@ -983,24 +983,26 @@ function openSlideViewer(number){
  img.src=`assets/slide-${String(n).padStart(2,"0")}.jpg`;
  img.alt=`Слайд ${n}: ${slides.find(x=>x[0]===n)?.[1]||""}`;
  title.textContent=`Слайд ${n} из 32`;
- modal.hidden=false; document.body.classList.add("viewer-open"); slideViewerOpen=true;
- history.pushState({slideViewer:true,slide:n},"");
+ modal.hidden=false; modal.setAttribute("aria-hidden","false");
+ document.body.classList.add("viewer-open"); slideViewerOpen=true;
  document.getElementById("slideViewerClose")?.focus();
 }
-function closeSlideViewer(useHistory=true){
+function closeSlideViewer(){
  if(!slideViewerOpen)return;
  const modal=document.getElementById("slideViewer");
- if(modal)modal.hidden=true;
+ if(modal){modal.hidden=true;modal.setAttribute("aria-hidden","true");}
  document.body.classList.remove("viewer-open"); slideViewerOpen=false; slideViewerNumber=null;
- if(useHistory && history.state?.slideViewer)history.back();
 }
-window.addEventListener("popstate",()=>{if(slideViewerOpen)closeSlideViewer(false);});
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&slideViewerOpen)closeSlideViewer(true);});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&slideViewerOpen)closeSlideViewer();});
 
+// Capture slide-viewer controls before page navigation handlers. Slides stay inside the app.
 document.addEventListener("click",e=>{
- const slideOpen=e.target.closest("[data-open-slide]"); if(slideOpen){openSlideViewer(slideOpen.dataset.openSlide);return;}
- if(e.target.closest("#slideViewerClose, .slide-viewer-x")){closeSlideViewer(true);return;}
- if(e.target.id==="slideViewer") {closeSlideViewer(true);return;}
+ const target=e.target instanceof Element ? e.target : null;
+ const slideOpen=target?.closest("[data-open-slide]");
+ if(slideOpen){e.preventDefault();e.stopImmediatePropagation();openSlideViewer(slideOpen.dataset.openSlide);return;}
+ const slideClose=target?.closest("#slideViewerClose, .slide-viewer-x");
+ if(slideClose){e.preventDefault();e.stopImmediatePropagation();closeSlideViewer();return;}
+ if(target?.id==="slideViewer"){e.preventDefault();closeSlideViewer();return;}
  const nav=e.target.closest("[data-view]");if(nav){setView(nav.dataset.view);return;}
  const mod=e.target.closest("[data-module]");if(mod){openModule(Number(mod.dataset.module));return;}
  const lesson=e.target.closest("[data-lesson]");if(lesson){openLesson(lesson.dataset.lesson);return;}
@@ -1031,4 +1033,4 @@ function showOut(id,rows){const el=document.getElementById(id);el.hidden=false;e
 render();
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;const b=document.getElementById("installBtn");b.hidden=false;});
 document.getElementById("installBtn").addEventListener("click",async()=>{if(!deferredPrompt){toast("Откройте меню браузера и выберите «Добавить на экран Домой»");return;}deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;});
-if("serviceWorker" in navigator && location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+if("serviceWorker" in navigator && location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));

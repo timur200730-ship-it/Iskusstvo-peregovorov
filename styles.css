@@ -257,3 +257,12 @@ html, body {
 .slide-viewer-hint{flex:0 0 auto;text-align:center;color:#aab7ca;font-size:12px;margin:8px 0 0;padding-bottom:env(safe-area-inset-bottom)}
 body.viewer-open{overflow:hidden}
 @media(max-width:600px){.slide-viewer{padding-left:8px;padding-right:8px}.slide-viewer-back{font-size:13px;padding:9px 11px}.slide-viewer-stage img{max-width:100%;max-height:100%}}
+
+/* v1.2: reliable in-app slide viewer and visible lesson navigation */
+.slide-viewer[hidden]{display:none!important}
+.slide-viewer{overscroll-behavior:contain;touch-action:pan-y}
+.slide-viewer-bar{padding-top:2px}
+.slide-viewer-back{min-height:44px;min-width:132px;touch-action:manipulation}
+.slide-viewer-x{min-height:44px;min-width:44px;touch-action:manipulation}
+.slide-open{touch-action:manipulation}
+.lesson-screen > .btn.ghost{display:inline-flex;align-items:center;min-height:44px;margin-bottom:4px;position:relative;z-index:2}
