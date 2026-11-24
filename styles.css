@@ -241,3 +241,19 @@ html, body {
   .nav-item small {font-size: 8px}
   .lesson-panel {padding-left: 12px;padding-right: 12px}
 }
+
+
+/* v1.1 — встроенный просмотр слайдов с возвратом в урок */
+.slide-open{display:block;width:100%;padding:0;border:0;background:transparent;cursor:zoom-in;border-radius:14px}
+.slide-open img{pointer-events:none}
+.slide-viewer[hidden]{display:none!important}
+.slide-viewer{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;background:rgba(3,8,16,.97);color:#f4f7fb;padding:calc(10px + env(safe-area-inset-top)) 12px calc(10px + env(safe-area-inset-bottom))}
+.slide-viewer-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:48px;flex:0 0 auto}
+.slide-viewer-back,.slide-viewer-x{border:1px solid rgba(255,255,255,.24);background:#17243a;color:#fff;border-radius:12px;padding:10px 13px;font:inherit;font-weight:700;cursor:pointer}
+.slide-viewer-x{min-width:42px}
+.slide-viewer-bar span{font-size:13px;color:#cbd5e1;text-align:center}
+.slide-viewer-stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:auto;padding:8px 0}
+.slide-viewer-stage img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:8px}
+.slide-viewer-hint{flex:0 0 auto;text-align:center;color:#aab7ca;font-size:12px;margin:8px 0 0;padding-bottom:env(safe-area-inset-bottom)}
+body.viewer-open{overflow:hidden}
+@media(max-width:600px){.slide-viewer{padding-left:8px;padding-right:8px}.slide-viewer-back{font-size:13px;padding:9px 11px}.slide-viewer-stage img{max-width:100%;max-height:100%}}

@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#111a2b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Переговоры">
   <meta name="description" content="Интерактивный учебник «Искусство эффективных переговоров». Центр Притяжения.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
@@ -32,6 +35,15 @@
     </nav>
   </div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="slideViewer" class="slide-viewer" hidden role="dialog" aria-modal="true" aria-label="Просмотр слайда">
+    <div class="slide-viewer-bar">
+      <button id="slideViewerClose" class="slide-viewer-back" type="button" aria-label="Назад к уроку">← Назад к уроку</button>
+      <span id="slideViewerTitle">Слайд</span>
+      <button class="slide-viewer-x" type="button" aria-label="Закрыть просмотр">✕</button>
+    </div>
+    <div class="slide-viewer-stage"><img id="slideViewerImage" alt="Слайд презентации"></div>
+    <p class="slide-viewer-hint">Чтобы вернуться к уроку, нажмите «Назад к уроку» или системную кнопку «Назад».</p>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
